@@ -8,6 +8,22 @@ body {
   background-color: #012;
 }
 
+/* Mobile-friendly adjustments */
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Visual layers should not block pointer events so touches reach the page.
+   We attach pointermove/deviceorientation on window, so visuals can be pointer-events none. */
+.baseLight,
+.shadows,
+.balls {
+  pointer-events: none;
+}
+
 :root {
   --ball-size: 42;
   --impect-radius: 192;
@@ -91,4 +107,58 @@ body {
   &::after {
     --_tx: 0.2px;
   }
+}
+
+/* Responsive sizing for small screens */
+@media (max-width: 600px) {
+  :root {
+    --ball-size: 28; /* smaller balls on phones */
+    --impect-radius: 120;
+  }
+
+  .shadow {
+    width: calc(var(--ball-size) * 1.8px);
+    height: calc(var(--ball-size) * 0.9px);
+  }
+
+  .baseLight {
+    inset: calc(50% - (var(--ball-size) * 5px));
+  }
+}
+
+/* Larger-than-phone tweaks */
+@media (min-width: 1200px) {
+  :root {
+    --ball-size: 52;
+    --impect-radius: 220;
+  }
+}
+
+/* Permission button for device orientation (iOS) */
+.orientation-permission {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: none; /* shown via inline style / JS when needed */
+  gap: 8px;
+  align-items: center;
+  pointer-events: auto; /* must accept clicks */
+}
+
+.orientation-permission button {
+  background: #fff;
+  color: #012;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.orientation-permission .secondary {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
 }
